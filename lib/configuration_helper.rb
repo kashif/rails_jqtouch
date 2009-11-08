@@ -18,7 +18,7 @@ module Jqtouch
     #   //]]>
     #   </script>
     def jqtouch_init(options={})
-      javascript_tag "$(document).jQTouch(#{options.camelize_keys!(:lower).to_json});", :charset => "utf-8"
+      javascript_tag "var jQT = new $.jQTouch(#{options.camelize_keys!(:lower).to_json});", :charset => "utf-8"
     end
   end
   

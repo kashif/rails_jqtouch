@@ -22,7 +22,8 @@ namespace :rails_jqtouch do
   desc 'Copia la hoja de estilos y las imagenes del tema jqt en public/stylesheets'
   task :install_stylesheets_jqt => :environment do
     Dir.chdir("#{ASSETS_PATH}/jqtouch/stylesheets") do
-      cp_r "jqt", "#{RAILS_ROOT}/public/stylesheets"
+      cp "jqtouch.css", "#{RAILS_ROOT}/public/stylesheets" 
+      cp_r "themes", "#{RAILS_ROOT}/public/stylesheets"
     end
   end
   
