@@ -51,7 +51,8 @@ namespace :rails_jqtouch do
   
   desc 'Elimina las hojas de estilos y las imagenes asociadas'
   task :clean_stylesheets => :environment do
-    rm_r "#{RAILS_ROOT}/public/stylesheets/jqt"
+    rm "#{RAILS_ROOT}/public/stylesheets/jqtouch.css"
+    rm_r "#{RAILS_ROOT}/public/stylesheets/themes"
   end
   
   desc 'Limpia la instalación de jqtouch, removiendo los javascripts, hojas de estilos, imágenes y layouts'
