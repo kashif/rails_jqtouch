@@ -1,9 +1,9 @@
 module Jqtouch
   
-  # Helpers para generar los diversos elementos que componen las vistas destinadas a las respuestas
-  # de los navegadores Mobile Safari, de acuerdo a los estilos y markup especificados en jQTouch.
+  # Helpers to generate the various elements that make up the view to the responses of the 
+  # Mobile Safari browser, according to the styles and markup specified in jQTouch.
   #
-  # Dentro del conunto de elementos que se pueden generar se encuentran:
+  # Within conunto of items that can generate are:
   # * page
   # * pad
   # * panel
@@ -14,7 +14,7 @@ module Jqtouch
   # * list
   # * TODO: grouped list
   #
-  # Ejemplo (extracto del ejemplo index.html de jQTouch):
+  # Example (excerpt from the example of jQTouch index.html):
   #
   #   <% mobile_page 'home', :selected => true do  %>
   #   <% mobile_toolbar 'jQTouch' do %>
@@ -43,7 +43,7 @@ module Jqtouch
   #   <% end %>
   module MobileHelper
     
-    # Genera el wrapper para una página, referenciada por un id. Ejemplo de uso:
+    # Generate the wrapper for a page, referenced by an id. Example of use:
     #
     #   mobile_page("home", :selected => true) do
     #     content_tag(:h1, "Home Page")
@@ -59,15 +59,15 @@ module Jqtouch
       concat build_page(id, options, &proc)
     end
     
-    # Genera un +div+ con la clase *pad*, que sirve de contenedor de elementos de formulario, texto,
-    # entre otros. Se pueden especificar opciones html en +options+. Si se especifica +:class+ dentro
-    # de las opciones, esta es agregada a "pad". Ejemplo:
+    # Generates a +div+ with the class *pad*, which serves as a container for form elements, text, 
+    # among others. Html You can specify options in + options +. If you specify +:class+ within 
+    # the options, this is added to "pad". Example:
     #
     #   mobile_pad(:class => "pointless_class") do
     #     content_tag(:h1, "Home Page")
     #   end
     #
-    # Lo cual genera:
+    # Which generates:
     #
     #   <div class="pad pointless_class">
     #     <h1>Home Page</h1>
@@ -78,13 +78,13 @@ module Jqtouch
       concat content_tag(:div, capture(&proc), options)
     end
     
-    # Es como +mobile_page+, pero le agrega al div resultante la clase +panel+. Ejemplo
+    # It's like +mobile_page+, but adds the resulting div class +panel+. Example
     #
     #   mobile_panel("home", :class => "pointless_class") do
     #     content_tag(:h1, "Home Page")
     #   end
     #
-    # Lo cual genera:
+    # Which generates:
     #
     #   <div class="panel pad pointless_class" id="home">
     #     <h1>Home Page</h1>
@@ -94,14 +94,14 @@ module Jqtouch
       mobile_page id, options, &proc
     end
     
-    # Genera un +fieldset+, que sirve de contenedor de elementos de formulario (en la pråctica 
-    # contendría varios +mobile_row+). Se pueden especificar opciones html en +options+. Ejemplo:
+    # Generates a +fieldset+, which serves as a container for form elements (in practice contain 
+    # several +mobile_row+). You can specify html options in + options +. Example:
     #
     #   mobile_fieldset(:class => "pointless_class") do
     #     content_tag(:span, "Field")
     #   end
     #
-    # Lo cual genera:
+    # Which generates:
     #
     #   <fieldset class="pointless_class">
     #     <span>Field</span>
@@ -111,26 +111,25 @@ module Jqtouch
       concat content_tag(:fieldset, capture(&proc), options)
     end
   
-    # Genera un +div+, con la clase +row+ que sirve de contenedor de elementos de formulario. +name+
-    # especifica la etiqueta del campo del formulario. Se pueden especificar opciones html en 
-    # +options+. Ejemplo:
+    # Generates a + div + with + row + class that serves as a container for form elements.
+    #  +name+ label specifies the form field. You can specify html options in + options +. Example:
     #
     #   mobile_row("Name", :class => "pointless_class") do
     #     content_tag(:span, "Dummy Field")
     #   end
     #
-    # Lo cual genera:
+    # Which generates:
     #
     #   <div class="row pointless_class">
     #     <label>Field</label>
     #     <span>Dummy Field</span>
     #   </div>
     #
-    # También puede utilizarse sin bloque: Ejemplo:
+    # It can also be used without block: Example:
     #
     #   mobile_row "Name"
     #
-    # Lo que genera el siguiente HTML:
+    # Generates the following HTML:
     #
     #   <div class="row">
     #     <label>Field</label>
@@ -145,15 +144,15 @@ module Jqtouch
       end
     end
     
-    # Permite genrar la barra de herramientas (toolbar), con el título especificado por +title+, y el
-    # contenido mediante un bloque. +options+, por ahora, acepta la opción +:back_button+, la cual
-    # permite agregar un botón para regresar (Back Button) con el nombre especificado. Ejemplo:
+    # Generates the toolbar (toolbar), with the title specified by + title +, and content through a block. 
+    # + options + for now accepts option +: back_button +, which lets you add a button 
+    # to go back (Back Button) with the specified name. Example:
     #
     #   mobile_toolbar("Home", :back_button => "Volver") do
     #     content_tag(:h2, "Sweet Home")
     #   end
     #
-    # Genera el siguiente HTML:
+    # Generates the following HTML:
     #
     #   <div class="toolbar">
     #     <h1>Home</h1>
@@ -165,18 +164,18 @@ module Jqtouch
       concat build_toolbar(title, options, &proc)
     end
     
-    # Genera una página (tipo +mobile_page+), con un +mobile_toolbar+ de manera automática. El título
-    # en el toolbar es especificado por +title+, y el id de la página (por defecto, si no se 
-    # especifica +:id+ en +options+) es +title+ en la forma *underscore* (los espacios en +title+
-    # son reemplazados por underscore también).
+    # Generates a page (type +mobile_page+), with a +mobile_toolbar+ automatically. 
+    # The title on the toolbar specified by + title +, and the id of the page 
+    # (by default, if not specified +: id + in + options +) is + title + in the form
+    # * underscore * (spaces and + title + are replaced by also underscore).
     #
-    # Ejemplo:
+    # Example:
     #
     #   mobile_page_with_toolbar("JQ Touch", :selected => true, :back_button => "Volver") do
     #     content_tag(:h2, "Sweet Home")
     #   end
     #
-    # Genera:
+    # Generates:
     #
     #   <div id="jq_touch" selected="true">
     #     <div class="toolbar">
@@ -192,12 +191,12 @@ module Jqtouch
       concat build_page(id, options, toolbar, &proc)
     end
     
-    # Genera un botón (link con la clase *button*), que contiene adicionalmente la clase *back*.
-    # Ejemplo:
+    # Generates a button (link to class * button *), which contains additional class * back *.
+    # Example:
     #
     #   mobile_back_button "Volver" 
     #   
-    # Genera:
+    # Generates:
     #
     # <a href="#" class="button back">Volver</a>
     def mobile_back_button(name, html_options = {})
@@ -205,15 +204,15 @@ module Jqtouch
       mobile_button_to(name, "#", html_options)
     end
     
-    # Genera un botón (link con la clase *button*) con el nombre identificado por +name+. +options+
-    # y +html_options+ se comportan igual que +link_to+. El efecto de transición se puede indicar
-    # con +:effect+ en +html_options+.
+    # Generates a button (link to class * button *) identified by the name +name+.
+    # +options+ and +html_options+ will behave the same as +link_to+. 
+    # The transition effect may be indicated by +:effect+ in +html_options+.
     #
-    # Ejemplo:
+    # Example:
     #
     #   mobile_button_to("About", "#about", :class => "leftButton", :effect => "flip")
     #
-    # Genera:
+    # Generates:
     #
     #   <a href="#about" class="button leftButton flip">About</a>
     def mobile_button_to(name, options, html_options={})    
@@ -223,12 +222,12 @@ module Jqtouch
       link_to(name, options, html_options)
     end
     
-    # Genera un item de una lista (li a). +item+ es un Hash que contiene, al menos los keys +name+ 
-    # y +:url+. Adicionalmente se puede especificar +:target+.
+    # Generates an item from a list (li). +item+ is a Hash that contains 
+    # at least the keys +name+ and +:url+. Additionally you can specify +:target+.
     #
     #   mobile_list_item :name => "Test Item", :url => "#test_item"
     #
-    # Genera:
+    # Generates:
     #
     #   <li><a href="#test_item">Test Item</a></li>
     def mobile_list_item(item, options = {})
@@ -240,9 +239,9 @@ module Jqtouch
         link_to(item[:name], item[:url], options)
     end
     
-    # Genera una lista (ul), con la clase +edgetoedge+, los elementosw de la lista, son especificados
-    # por +items+, los cuales cumnplen con lo especificado para el atributo +item+ de +mobile_list_item+.
-    # +options+ permite especificar opciones a los links generados en +mobile_list_item+.
+    # Generate a list (ul) with +edgetoedge+ class, the elements of the list items are specified by +items????+, 
+    # which cumnplen as specified for the attribute +item+ to +mobile_list_item+. 
+    # +options+ to specify options to the links generated +mobile_list_item+.
     #
     #
     # Ejemplo:
