@@ -333,6 +333,14 @@
                 return false;
             }
             
+            // Error check for fromPage=toPage
+            if(toPage.hasClass('current'))
+            {
+                $.fn.unselect();
+                console.error('Target element is the current page.');
+                return false;
+            }
+            
             // Collapse the keyboard
             $(':focus').blur();
 
@@ -466,13 +474,13 @@
                     }
                 });
             }
-            else if ($referrer)
+            else if (settings.$referrer)
             {
-                $referrer.unselect();
+                settings.$referrer.unselect();
             }
         }
         function submitForm(e, callback){
-            var $form = (typeof(e)==='string') ? $(e).eq(0) : $(e.target);
+            var $form = (typeof(e)==='string') ? $(e).eq(0) : ( e.target ? $(e.target) : $(e) );
 
             if ($form.length && $form.is(jQTSettings.formSelector)) {
                 showPageByHref($form.attr('action'), {
@@ -551,7 +559,7 @@
                                 
                 // Check for swipe
                 if (absX > absY && (absX > 35) && deltaT < 1000) {
-                    $el.trigger('swipe', {direction: (deltaX < 0) ? 'left' : 'right'}).unbind('touchmove touchend');
+                    $el.trigger('swipe', {direction: (deltaX < 0) ? 'left' : 'right', deltaX: deltaX, deltaY: deltaY }).unbind('touchmove touchend');
                 } else if (absY > 1) {
                     $el.removeClass('active');
                 }
