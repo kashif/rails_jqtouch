@@ -1,8 +1,8 @@
 include FileUtils
 
-# Ruta donde se encuentran los fuentes de jqtouch y las plantillas de los layouts.
+# Path where the sources jqtouch templates and layouts are:
 ASSETS_PATH = File.join(File.dirname(__FILE__), '../assets')
-# Versión de jqtouch utilizada
+# jqtouch version used
 JQT_VERSION = "1.0.0-a2"
 
 namespace :rails_jqtouch do

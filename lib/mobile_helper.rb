@@ -244,7 +244,7 @@ module Jqtouch
     # +options+ to specify options to the links generated +mobile_list_item+.
     #
     #
-    # Ejemplo:
+    # Example:
     #
     #   items = [
     #     {:name => "Test Item", :url => "#test_item"},
@@ -252,7 +252,7 @@ module Jqtouch
     #
     #   mobile_list(items, :effect => "flip")
     #
-    # Genera:
+    # Generates:
     #
     #   <ul class="edgetoedge">
     #     <li><a href="#test_item" class="flip">Test Item</a></li>

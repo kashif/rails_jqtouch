@@ -1,24 +1,24 @@
 module Jqtouch
-  # Incluye macros y filtros varios para facilitar el trabajo con controladores que requieren procesar
-  # requests desde un Iphone o un Ipod Touch (Navegadores Mobile Safari).
+  # Includes several macros and filters to facilitate work with drivers that need to process 
+  # requests from an iPhone or iPod Touch (Mobile Safari browsers).
   #
-  # El código original es tomado de rails-iui (git://github.com/noelrappin/rails-iui.git) by
+  # The original code is taken from rails-iui (git://github.com/noelrappin/rails-iui.git) by
   # Noel Rappin.
   #  
-  # Ejemplos de uso:
+  # Examples of use:
   #  
-  # +acts_as_iphone_controller+ está disponible para incluirse en un controlador en específico o en el
-  # ApplicationController. Automåticamente se asigna el filtro +set_iphone_format+ que se encarga de
-  # asignar a +request.format+ el formato +:iphone+.
+  # +acts_as_iphone_controller+ is available for inclusion in a specific driver or the
+  # ApplicationController. The filter is automatically assigned +set_iphone_format+ that is 
+  # responsible for allocating +request.format+ to format +:iphone+.
   #  
   #   class TareasController < ApplicationController
   #     acts_as_iphone_controller
   #     ...
   #   end
   #    
-  # Si se incluye +acts_as_iphone_controller(true)+, todos los requests son tratados como provenientes
-  # de una navegador Mobile Safari, por lo que +request.format+ siempre será +:iphone+. Útil durante
-  # el desarrollo, para pruebas y depuración.
+  # If you include +acts_as_iphone_controller(true)+, all requests are treated as coming from a
+  # Mobile Safari browser, so +request.format+ will always be +:iphone+. Useful during 
+  # development, testing and debugging
   module IphoneController
     
     def self.included(base)
@@ -42,33 +42,33 @@ module Jqtouch
     module InstanceMethods
       private
       
-      # Fuerza que +request.format+ siempre sea +:iphone+
+      # Force +request.format+ to +:iphone+
       def force_iphone_format
         request.format = :iphone
       end
       
-      # Asigna +request.format+ a +:iphone+ dependiendo si el request provino de un navegador
-      # Mobile Safari o de un subdominio tipo iphone.dominio.com.
+      # Assign +request.format+ to +:iphone+ depending on whether the request came from a
+      # Mobile Safari browser or a subdomain type iphone.dominio.com.
       #
-      # Para los casos en que, desde uno de estos dispositivos, se desee ver el website completo
-      # original, asignar el valor +"desktop"+ a +cookies["browser"]+.
+      # For cases in which, from one of these devices, you want to see the original full website
+      # assign the value +"desktop"+ to +cookies["browser"]+.
       def set_iphone_format
         if is_iphone_request? || is_iphone_format? || is_iphone_subdomain?
           request.format = cookies["browser"] == "desktop" ? :html : :iphone 
         end
       end
       
-      # Devuelve +true+ si el +request.format+ asignado es +:iphone+
+      # Returns +true+ if the +request.format+ is +:iphone+
       def is_iphone_format?
         request.format.to_sym == :iphone
       end
       
-      # Verifica que el User Agent sea el correspondiente a Mobile Safari, para lo cual devuelve +true+.
+      # Verify that the User Agent is the one for Mobile Safari, which returns +true+.
       def is_iphone_request?
         request.user_agent =~ /(Mobile\/.+Safari)/
       end
       
-      # Verifica que el subdominio sea del tipo iphone.dominio.com.
+      # Check that the subdomain is the type iphone.dominio.com.
       def is_iphone_subdomain?
         request.subdomains.first == "iphone"
       end

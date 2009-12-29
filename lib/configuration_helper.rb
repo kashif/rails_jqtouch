@@ -2,15 +2,15 @@ module Jqtouch
   
   module ConfigurationHelper
     
-    # Permite generar el javascript para agregar las opciones de configuración de jqtouch.
-    # +options+ es un Hash que es convertido en json, y que especifican las opciones que se pasan
-    # como argumento a $(document).jQTouch.
+    # Can generate the javascript to add jqtouch settings. 
+    # +options+ is a Hash that is converted to json, and that specifies the options that are passed 
+    # as argument to $(document).jQTouch.
     #
-    # Ejemplo:
+    # Example:
     #
     #   <%= jqtouch_init :status_bar => 'black-translucent' %>
     #
-    # Genera el siguiente código:
+    # Generates the following code:
     #
     #   <script charset="utf-8" type="text/javascript">
     #   //<![CDATA[

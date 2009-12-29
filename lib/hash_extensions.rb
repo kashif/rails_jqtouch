@@ -1,9 +1,9 @@
 module Jqtouch
   
   module HashExtensions
-    # Destructivamente cameliza todos los keys.
-    # Por defecto, cconvierte los keys de la forma UpperCamelCase. Si el argumento +first_letter+ es
-    # asigando a :lower, los keys generados son de la forma lowerCamelCase.  
+    # Destructively camelize all keys.
+    # By default, converts the keys of the form UpperCamelCase. If the argument +first_letter+ is
+    # assigned to :lower, the keys generated are of the form lowerCamelCase.
     def camelize_keys!(first_letter = :upper)
       keys.each {|k| self[k.to_s.camelize(first_letter)] = delete(k) }
       self
