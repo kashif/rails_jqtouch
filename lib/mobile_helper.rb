@@ -278,6 +278,7 @@ module Jqtouch
     def build_page(id, options = {}, prebody_html = "", &proc)
       proc = block_given? ? capture(&proc) : ""
       options.merge!(:id => "#{id}")
+      options.merge!(:class => "current") if options.delete(:selected) == true
       content_tag(:div, prebody_html + proc, options)
     end
     
