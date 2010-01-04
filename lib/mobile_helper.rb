@@ -19,7 +19,7 @@ module Jqtouch
   #
   # Example (excerpt from the example of jQTouch index.html):
   #
-  #   <% mobile_page 'home', :selected => true do  %>
+  #   <% jqt_page 'home', :selected => true do  %>
   #   <% mobile_toolbar 'jQTouch' do %>
   #     <%= mobile_button_to "About", '#about', :effect => 'slideup' %>
   #   <% end %>
