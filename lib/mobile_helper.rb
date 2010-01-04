@@ -1,5 +1,8 @@
+require "rails_jqtouch_mixin.rb"
+
 module Jqtouch
   
+  include RailsJQTouchMixin
   # Helpers to generate the various elements that make up the view to the responses of the 
   # Mobile Safari browser, according to the styles and markup specified in jQTouch.
   #
@@ -54,13 +57,13 @@ module Jqtouch
     #   <div id="home" selected="true">
     #     <h1>Home Page</h1>
     #   </div>
-    def mobile_page(id, options = {}, &proc)
+    def jqt_page(id, options = {}, &proc)
       raise "Proc needed" unless block_given?
       concat build_page(id, options, &proc)
     end
     
     # Generates a +div+ with the class *pad*, which serves as a container for form elements, text, 
-    # among others. Html You can specify options in + options +. If you specify +:class+ within 
+    # among others. You can specify html options in + options +. If you specify +:class+ within 
     # the options, this is added to "pad". Example:
     #
     #   mobile_pad(:class => "pointless_class") do
@@ -159,7 +162,7 @@ module Jqtouch
     #     <h2>Sweet Home</h2>
     #     <a href="#" class="button back">Volver</a>
     #   </div>
-    def mobile_toolbar(title, options={}, &proc)
+    def jqt_toolbar(title, options={}, &proc)
       raise "Proc needed" unless block_given?
       concat build_toolbar(title, options, &proc)
     end
@@ -199,9 +202,14 @@ module Jqtouch
     # Generates:
     #
     # <a href="#" class="button back">Volver</a>
-    def mobile_back_button(name, html_options = {})
+    def jqt_back_button(name, html_options = {})
       html_options[:class] = html_options.has_key?(:class) ? "back #{html_options[:class]}" : "back"
-      mobile_button_to(name, "#", html_options)
+      jqt_button_to(name, "#", html_options)
+    end
+    
+    def jqt_home_back_button(name, html_options = {})
+      html_options[:class] = html_options.has_key?(:class) ? "back #{html_options[:class]}" : "back"
+      jqt_button_to(name, "#Home", html_options)
     end
     
     # Generates a button (link to class * button *) identified by the name +name+.
@@ -215,7 +223,7 @@ module Jqtouch
     # Generates:
     #
     #   <a href="#about" class="button leftButton flip">About</a>
-    def mobile_button_to(name, options, html_options={})    
+    def jqt_button_to(name, options, html_options={})    
       html_options[:class] = ["button",
                               html_options.delete(:class), 
                               html_options.delete(:effect)].compact.join(" ")
@@ -230,13 +238,20 @@ module Jqtouch
     # Generates:
     #
     #   <li><a href="#test_item">Test Item</a></li>
-    def mobile_list_item(item, options = {})
+    def jqt_list_item(item, options = {})
       raise "Hash with keys :name and :url needed" unless item.has_key?(:name) && item.has_key?(:url)
       effect = options.delete(:effect) || nil
       options[:class] = effect if effect 
       options[:target] = item[:target] if item.has_key?(:target)
-      content_tag :li,
-        link_to(item[:name], item[:url], options)
+      options[:rel] = "external" if item[:url][0..6] == 'http://'
+      list_text = ''
+      list_text << link_to(item[:name], item[:url], options)
+      list_text << link_to(item[:subhead].untaint, item[:url], options) if item[:subhead]
+      if item.has_key?(:image_filename)
+        list_text = link_to("<img src=\"#{item[:image_filename]}\" class=\"sp-list-image\"> #{item[:name]}", item[:url])
+        image_class = "image-list-item"
+      end
+      content_tag(:li, list_text, :class => 'arrow')
     end
     
     # Generate a list (ul) with +edgetoedge+ class, the elements of the list items are specified by +items????+, 
@@ -258,9 +273,10 @@ module Jqtouch
     #     <li><a href="#test_item" class="flip">Test Item</a></li>
     #     <li><a href="#test_item2" class="flip" target="_self">Test Item 2</a></li>
     #   </ul>
-    def mobile_list(items, options = {})
-      items.map! {|i| mobile_list_item(i, options) }
-      content_tag(:ul, items.join, :class => "edgetoedge")
+    def jqt_list(items, options = {})
+      list_class = options[:list_class] || "rounded"
+      items.map! {|i| jqt_list_item(i, options) }
+      content_tag(:ul, items.join, :class => list_class)
     end
     
     private
@@ -268,7 +284,12 @@ module Jqtouch
     def build_toolbar(title, options = {}, &proc)
       proc = block_given? ? capture(&proc) : ""
       back = options.delete(:back_button)
-      html = back ? mobile_back_button(back) : ""
+      home = options.delete(:home_button)
+      right = options.delete(:right_button)
+      html = back ? jqt_back_button(back) : ""
+      html = jqt_home_back_button(home) if home
+      html = html << jqt_button_to(right[:name], right[:link] ) if right
+      
       
       content_tag :div, 
         content_tag(:h1, title) + proc + html,
@@ -279,6 +300,9 @@ module Jqtouch
       proc = block_given? ? capture(&proc) : ""
       options.merge!(:id => "#{id}")
       options.merge!(:class => "current") if options.delete(:selected) == true
+      unless options[:tab_bar] == false
+        prebody_html = iphone_tabbar(id) + prebody_html
+      end
       content_tag(:div, prebody_html + proc, options)
     end
     
