@@ -254,7 +254,7 @@ module Jqtouch
       list_text << link_to(item[:name], item[:url], options)
       list_text << link_to(item[:subhead].untaint, item[:url], options) if item[:subhead]
       if item.has_key?(:image_filename)
-        list_text = link_to("<img src=\"#{item[:image_filename]}\" class=\"sp-list-image\"> #{item[:name]}", item[:url])
+        list_text = link_to("<img src=\"#{item[:image_filename]}\" class=\"sp-list-image\"> #{item[:name]}", item[:url], options)
         image_class = "image-list-item"
       end
       content_tag(:li, list_text, :class => 'arrow')
