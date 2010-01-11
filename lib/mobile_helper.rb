@@ -243,7 +243,7 @@ module Jqtouch
       effect = options.delete(:effect) || nil
       options[:class] = effect if effect 
       options[:target] = item[:target] if item.has_key?(:target)
-      if item[:url][0..6] == 'http://'
+      if item[:url][0..3] == 'http'
         options[:rel] = "external"
       else
         options[:rel] = nil
