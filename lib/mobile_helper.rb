@@ -248,6 +248,7 @@ module Jqtouch
       else
         options[:rel] = nil
       end
+      options[:rel] = item[:rel] if item.has_key?(:rel)
       list_text = ''
       list_text << link_to(item[:name], item[:url], options)
       list_text << link_to(item[:subhead].untaint, item[:url], options) if item[:subhead]
